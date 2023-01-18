@@ -46,7 +46,7 @@ Flags:
 By default, Notation uses [OCI artifact manifest][oci-artifact-manifest] to store signatures in registries. However, for backward compatibility, Notation supports using `OCI image manifest` to store signatures in registries that partially implement the [OCI Image specification v1.1][oci-image-spec]. Notation supports both an explicit and implicit method for backward compatability. 
 
 ### For Implicit
-In the default approach, if pushing the signature using the OCI Artifact manifest results in Notation getting an error code 405 - Method not allowed or error code 415 - Unsupported media type, Notation will automatically try to push the signature with the implicit method. 
+In the default approach, if pushing the signature using the OCI Artifact manifest results in Notation getting an error code 405 - Method not allowed or error code 415 - Unsupported media type, Notation will automatically try to push the signature with the Image spec method.
 
 ### For Explicit
 Use flag `--image-spec v1.1-image` to force Notation to store the signatures using OCI image manifest explicitly. In this case Notation will not even try to store the signature using the "OCI Artifact Manifest"
