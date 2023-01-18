@@ -41,11 +41,15 @@ Flags:
   -m,  --user-metadata strings    {key}={value} pairs that are added to the signature payload
 ```
 
-## Use OCI image manifest to store signatures
+## User expereince when signing and storing signatures 
 
-By default, Notation uses [OCI artifact manifest][oci-artifact-manifest] to store signatures in registries. For backward compatibility, Notation supports using `OCI image manifest` to store signatures in registries that partially implement the [OCI Image specification v1.1][oci-image-spec]. Use flag `--image-spec v1.1-image` to force Notation to store the signatures using OCI image manifest.
+By default, Notation uses [OCI artifact manifest][oci-artifact-manifest] to store signatures in registries. However, for backward compatibility, Notation supports using `OCI image manifest` to store signatures in registries that partially implement the [OCI Image specification v1.1][oci-image-spec]. Notation supports both an explicit and implicit method for backward compatability. 
 
-Registries MAY not implement or enable the `Referrers API`, which is used by clients to fetch referrers. In the context of Notation, the referrers are signatures. Notation follows the fallback procedure defined in [OCI distribution spec][oci-backward-compatibility] if `Referrers API` is unavailable.
+### For Implicit
+In the default approach, if pushing the signature using the OCI Artifact manifest results in Notation getting an error code 405 - Method not allowed or error code 415 - Unsupported media type, Notation will automatically try to push the signature with the Image spec method.
+
+### For Explicit
+Use flag `--image-spec v1.1-image` to force Notation to store the signatures using OCI image manifest explicitly. In this case Notation will not even try to store the signature using the "OCI Artifact Manifest"
 
 ### Set config property for OCI image manifest
 
@@ -61,7 +65,7 @@ Notation uses empty JSON object `{}` as the default configuration content, and t
 }
 ```
 
-### When to use OCI image manifest
+#### When to use OCI image manifest explicit method
 
 [Registry support][registry-support] lists registries with different compatibilities. For registries not supporting `OCI artifact manifest`, users can use flag `--image-spec v1.1-image` to sign artifacts stored in those registries.
 
